@@ -9,6 +9,69 @@ var targetArr = [];
 var lives = 6;
 var flag = false;
 var counter = 0;
+var xCent = document.getElementById("hangman_container").clientWidth/2;     //Gets the center of the x-axis on the container the stickfigure will be drawn in
+
+
+function drawFigure () {
+    if (lives == 5)
+        head();
+    if (lives == 4)
+        torso();
+    if (lives == 3)
+        rightArm();
+    if (lives == 2)
+        leftArm();
+    if (lives == 1)
+        rightLeg();
+    if (lives == 0)
+    {
+        leftLeg();
+        endGame();
+    }
+}
+
+function head() {
+    theStickman = document.getElementById("stickman");
+    context = theStickman.getContext('2d');
+    stickman.width = 250;
+    stickman.height = 450;
+    context.beginPath();
+    context.strokeStyle = "#10F2D0";
+    context.lineWidth = 4;
+    context.arc(xCent, 50, 25, 0, Math.PI*2);
+    context.stroke();
+};
+    
+function draw(xStart, yStart, xEnd, yEnd) {         //since all the other body parts are straight lines, make a function for all of them
+    context.strokeStyle = "#10F2D0";
+    context.lineWidth = 4;
+    context.beginPath();
+    context.moveTo(xStart, yStart);
+    context.lineTo(xEnd, yEnd);
+    context.stroke(); 
+};
+ 
+function torso() {
+    draw (xCent, 75, xCent, 150);
+};
+  
+function rightArm() {
+    draw (xCent, 95, xCent+20, 150);
+   };
+  
+function leftArm() {
+    draw (xCent, 95, xCent-20, 150);
+   };
+function leftLeg() {
+    draw (xCent, 150, xCent-10, 205);
+};
+  
+function rightLeg() {
+    draw (xCent, 150, xCent+10, 205);
+};
+  
+
+
 function checkCorrect() {
     for (var i = 0; i < target.length; i++)
     {
@@ -22,19 +85,12 @@ function checkCorrect() {
     if (flag == false)
     {
         lives --;
-        document.getElementById("test").innerHTML = lives;
+        drawFigure();
+
     }
    flag = false;
-
-      if (counter == target.length) {
-        document.getElementById("test").innerHTML = "Hooray";
-
-      }
-      if (lives == 5)
-      {
-        document.getElementById("test").innerHTML = "Boo";
-
-      }
+    if (counter == target.length)
+        endGame();
 };
 function fillTargetWord() {
     wordHold = document.getElementById("word_container");
@@ -59,10 +115,10 @@ async function getWord() {
     //let length = checkCorrect(target);
 
 };
-var buttons = function() {
+function buttons() {
     alphButtons = document.getElementById("button_container");
-    letter = document.createElement('ul');    //Don't want to bloat up the html with SEVERAL buttons, so I am going to use this function to create them
-
+    letter = document.createElement('ul');    //Don't want to bloat up the html with SEVERAL buttons, so I am going to use this function to create the
+    letter.setAttribute("id", "letters");
     for (var i = 0; i < alphabet.length; i++) {
         letter.id = 'alphabet';            //set the letters to a class
         letterList = document.createElement('li');
@@ -81,34 +137,56 @@ var buttons = function() {
     }
 
 }
+
 function cheat() {
     document.getElementById("cheater").innerHTML = "Cheater!";
-    for (var i = 0; i < target.length; i++)
-    {
-        targetArr[i].innerHTML = target[i];
-    }
-
-
+    lives = 0;      //Set lives to 0, so it displays a losing result
+    endGame();
 }
+
 function play() {
     //Reset everything
-    correctLetters.parentNode.removeChild(correctLetters);
+    correctLetters.parentNode.removeChild(correctLetters);          //Remove the parent of the list by deleting itself
     letter.parentNode.removeChild(letter);
+
     lives = 6;     //HEAD, BODY, ARM, ARM, LEG, LEG
     target = 0;
+    counter = 0;
     targetArr = [];
     document.getElementById("word_container").innerHTML = "";
     document.getElementById("cheater").innerHTML = "Give me the word!";
+    document.getElementById("cheater").disabled = false;
+    let canvas = document.getElementById("stickman");
+    document.getElementById("result").innerHTML = "";
+    context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-    //Get a new word/ redo the buttons
+
+    //Get a new word and redo the buttons
     getWord();
     buttons();
 
 }
+
+function endGame() {
+    document.getElementById("cheater").disabled = true;
+    const list = document.getElementById("letters")
+    for (var i = 0; i < target.length; i++)
+        targetArr[i].innerHTML = target[i];             //Fill in the word, in case the user did not guess it
+  
+    for(var i = 0; i < alphabet.length; i++)            //Disable all buttons
+    {
+        let temp = letter.children[i];
+        temp.setAttribute("class", "clicked");
+    }
+    if (lives == 0)
+        document.getElementById("result").innerHTML = "You Lose! :C";
+    else
+        document.getElementById("result").innerHTML = "You Win! :D";
+}
+
+
 getWord();
 buttons();
 document.getElementById("play").onclick = function() { play();};
 document.getElementById("cheater").onclick = function() { cheat();};
-
-
-

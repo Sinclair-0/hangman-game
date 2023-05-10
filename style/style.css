@@ -20,7 +20,8 @@ body {
 }
 #button_container {
     width: 40%;
-    height: 350px;
+    height: 375px;
+    max-height: 375px;
     padding: 10px;
     position: relative;
     text-align: center;
@@ -29,17 +30,30 @@ body {
     border: 3px solid;
     border-radius: 4px;
 }
-#hangman_container {
-    border: 3px solid;
-    margin: auto;
-    width: 10%;
-    height: 350px;
+#stickman {
+
     clear: none;
 }
+#hangman_container {
+    border: solid 2px;
+    margin: auto;
+    width: 250px;
+    height: 450px;
+    clear: none;
+}
+#result {
+    border: 3px solid;
+    width: 250px;
+    height: 100px;
+    clear: none;
+    margin: auto;
+    margin-top: 25px;
+}
+
 #words {
     font-size: 45px;
     width: 40%;
-    height: 350px;
+    height: 375px;
     padding: 10px;
     position: relative;
     text-align: center;
@@ -92,8 +106,6 @@ body {
     cursor:pointer;
     border: double 3px rgb(255, 65, 246);
     border-radius: 5px;
-      
-
 }
 #letter:hover{
     background:rgb(255, 65, 246);
