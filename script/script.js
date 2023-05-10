@@ -34,7 +34,7 @@ function head() {
     theStickman = document.getElementById("stickman");
     context = theStickman.getContext('2d');
     stickman.width = 250;
-    stickman.height = 450;
+    stickman.height = 250;
     context.beginPath();
     context.strokeStyle = "#10F2D0";
     context.lineWidth = 4;
@@ -52,7 +52,7 @@ function draw(xStart, yStart, xEnd, yEnd) {         //since all the other body p
 };
  
 function torso() {
-    draw (xCent, 75, xCent, 150);
+    draw (xCent, 75, xCent, 140);
 };
   
 function rightArm() {
@@ -63,11 +63,11 @@ function leftArm() {
     draw (xCent, 95, xCent-20, 150);
    };
 function leftLeg() {
-    draw (xCent, 150, xCent-10, 205);
+    draw (xCent, 140, xCent-10, 215);
 };
   
 function rightLeg() {
-    draw (xCent, 150, xCent+10, 205);
+    draw (xCent, 140, xCent+10, 215);
 };
   
 
@@ -149,7 +149,7 @@ function play() {
     correctLetters.parentNode.removeChild(correctLetters);          //Remove the parent of the list by deleting itself
     letter.parentNode.removeChild(letter);
 
-    lives = 6;     //HEAD, BODY, ARM, ARM, LEG, LEG
+    lives = 6;        //HEAD, BODY, ARM, ARM, LEG, LEG
     target = 0;
     counter = 0;
     targetArr = [];
